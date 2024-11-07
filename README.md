@@ -1,4 +1,4 @@
-# Rapid Ticket API Documentation
+# CodeBase API Documentation
 
 ## Contexto
 
