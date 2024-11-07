@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Rapid Ticket es una plataforma online de venta de tickets para conciertos artísticos. Con el objetivo de escalar y aumentar su base de clientes, esta API permite gestionar la venta de tickets para diferentes espectáculos en teatros, estadios y otros lugares, facilitando la reserva de localidades para funciones específicas.
+Esta es una versión de código base para iniciar una aplicación con spring boot 3.x (3.3.5) y base de datos PostgresQL.
 
 ## Tabla de Contenidos
 
@@ -18,81 +18,61 @@ Rapid Ticket es una plataforma online de venta de tickets para conciertos artís
 
 ## Características de la API
 
-- **Listar Shows y Funciones**: Permite obtener la lista de shows disponibles junto con sus características.
-- **Consultar Disponibilidad de Butacas**: Para cada función, se pueden listar las butacas disponibles y sus precios.
-- **Reservar Butacas**: Los usuarios pueden realizar reservas, especificando su DNI, nombre y las butacas seleccionadas.
-- **Búsqueda Avanzada**: Posibilidad de buscar shows basados en criterios como fechas, rango de precios y orden de resultados.
-- **Control de Concurrencia**: Garantiza que no se puedan realizar reservas simultáneas de la misma localidad.
+- **CRUD**: Permite realizar un CRUD completo de una funcionalidad.
 
 ## Tecnologías Utilizadas
 
-- **Backend**: Node.js con Express
+- **Backend**: JAVA con Spring Boot 3.3.5
 - **Base de Datos**: PostgreSQL
-- **Caché**: Redis
-- **Autenticación**: JWT
-- **Infraestructura en la Nube**: AWS o GCP
-- **Orquestación**: Kubernetes
+- **Infraestructura en la Nube**: RENDER
+- **Orquestación**: Docker
 
 ## Modelo Relacional
 
 La base de datos está estructurada en varias tablas:
 
 - **Usuario**: Información sobre los usuarios (administradores y clientes).
-- **Lugar**: Datos de los lugares donde se realizan los shows.
-- **Sección**: Información sobre las secciones dentro de cada lugar.
-- **Show**: Datos sobre los espectáculos.
-- **Función**: Detalles de las funciones programadas de cada show.
-- **Butaca**: Información sobre las butacas disponibles.
-- **Reserva**: Registro de las reservas realizadas por los usuarios.
-- **Reserva_Butaca**: Relación entre reservas y butacas.
 
 ## Endpoints de la API
 
 En los siguientes EndPoints se define la documentación de los recursos web expuestos para resolver la iniciativa o prueba técnica:
 
-- http://localhost:8080/meli/swagger-ui/index.html
-- http://localhost:8080/meli/api-docs
+- http://localhost:8080/codebase/swagger-ui/index.html
+- http://localhost:8080/codebase/api-docs
 
-### 1. Listar Shows
+### 1. Listar Elementos
 
-**GET** `/shows`
+**GET** `/`
 
 **Parámetros de consulta**:
-- `fechaInicio`
-- `fechaFin`
-- `precioMin`
-- `precioMax`
-- `orden`
+- `fechaCreacion`
+- `role`
 
-### 2. Consultar Disponibilidad de Butacas
+### 2. Consultar por ID
 
-**GET** `/seats/available/{showId}/{funcionId}`
+**GET** `/{id}`
 
 **Respuesta**:
-- ID de butaca
-- Disponibilidad
-- Precio
+- ID del elemento
+- Fecha de creación
 
-### 3. Realizar Reserva
+### 3. Crear un elemento
 
-**POST** `/reservations`
+**POST** `/`
 
 **Cuerpo de la solicitud**:
 ```json
 {
     "dni": "12345678",
-    "nombre": "Nombre del Espectador",
-    "showId": 1,
-    "funcionId": 1,
-    "seats": [1, 2, 3]
+    "nombre": "Nombre del Espectador"
 }
 ```
 
-**Respuesta**: Ticket de reserva confirmando la transacción.
+**Respuesta**: Información salvada o creada en BD.
 
 ## Control de Concurrencia
 
-Si una butaca ya fue reservada, la API devolverá un error de conflicto (`HTTP 409`).
+Si un elemento ya fue creado, la API devolverá un error de conflicto (`HTTP 409`).
 
 ## Pruebas
 
@@ -108,7 +88,7 @@ La API debe ser desplegada utilizando contenedores Docker en render con una capa
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/josmejia2401/spring-boot-meli.git
+   git clone https://github.com/josmejia2401/spring-boot-crud-codebase.git
    cd spring-boot-meli
    ```
 
@@ -122,21 +102,21 @@ La API debe ser desplegada utilizando contenedores Docker en render con una capa
 
 4. Iniciar la aplicación con JAR:
    ```bash
-   java -jar target/spring-boot-meli.jar
+   java -jar target/spring-boot-crud-codebase.jar
    ```
 
-5Iniciar la aplicación con Docker Compose:
+5. Iniciar la aplicación con Docker Compose:
    ```bash
    docker-compose -f docker-compose.yml --compatibility up
    ```
 
-4. Iniciar la aplicación con Docker:
+6. Iniciar la aplicación con Docker:
    ```bash
    docker build --no-cache -t spring-boot-crud-codebase:latest . 
    docker run -it spring-boot-crud-codebase:latest -p 127.0.0.1:8080:8080
    ```
 
-5. Ejecutar pruebas:
+7. Ejecutar pruebas:
    ```bash
    mvn -Dtest=SeosSdkAutomationApplicationTests test
    mvn exec:java -Dexec.mainClass="com.josmejia2401.Application" -Dexec.classpathScope=test
@@ -146,10 +126,8 @@ La API debe ser desplegada utilizando contenedores Docker en render con una capa
 
 El código fuente y la documentación adicional se pueden encontrar en el siguiente enlace:
 
-[Repositorio de Rapid Ticket](https://github.com/josmejia2401/spring-boot-meli.git)
+[Repositorio](https://github.com/josmejia2401/spring-boot-crud-codebase.git)
 
 ---
-
-Este archivo `README.md` proporciona una visión general completa de la API de Rapid Ticket, incluyendo sus características, tecnologías utilizadas y cómo ejecutar y probar el proyecto.
 
 
