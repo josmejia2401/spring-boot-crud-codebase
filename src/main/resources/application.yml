@@ -1,0 +1,73 @@
+server:
+  servlet:
+    context-path: /codebase
+  port: 8080
+
+spring:
+  application:
+    version: 1.0.0
+    name: CodeBase
+    description: Description to codebase
+
+  profiles:
+    active: default
+
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: codebase
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 1
+          time_zone: America/Bogota
+        cache:
+          use_query_cache: false
+          use_second_level_cache: false
+          use_structured_entries: false
+          use_minimal_puts: false
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://ep-empty-hall-a55npy9h.us-east-2.aws.neon.tech/meli?sslmode=require
+    username: ${POSTGRESQL_USERNAME:meli_owner}
+    password: ${POSTGRESQL_PASSWORD:}
+    driverClassName: org.postgresql.Driver
+    initialization-mode: always
+    continue-on-error: false
+
+hibernate:
+  jdbc:
+    time_zone: America/Bogota
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, loggers
+      base: /
+      path-mapping:
+        health: /codebase/actuator/health
+        metrics: /codebase/actuator/metrics
+        loggers: /codebase/actuator/loggers
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: false
+    shutdown:
+      # curl -X POST http://localhost:8080/actuator/shutdown
+      enabled: true
